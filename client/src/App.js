@@ -1,11 +1,70 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation
+} from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Post from "./pages/Post";
 
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
+
+const AnimatedLayout = ({ apiBaseUrl, loginElement, postElement, user }) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const animatedElements = [
+      ...document.querySelectorAll(
+        ".navbar, .loginHero, .wrapper, .card, .post, .pageState, .missingPost"
+      )
+    ];
+
+    animatedElements.forEach((element, index) => {
+      element.animate(
+        [
+          {
+            opacity: 0,
+            transform: "translateY(28px) scale(0.985)"
+          },
+          {
+            opacity: 1,
+            transform: "translateY(0) scale(1)"
+          }
+        ],
+        {
+          duration: 720,
+          delay: index * 70,
+          easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+          fill: "both"
+        }
+      );
+    });
+  }, [location.pathname]);
+
+  return (
+    <div className="appShell">
+      <Navbar apiBaseUrl={apiBaseUrl} user={user} />
+      <main className="page">
+        <div className="pageInner">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={loginElement} />
+            <Route path="/post/:id" element={postElement} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+      </main>
+    </div>
+  );
+};
 
 const App = () => {
   const [user, setUser] = useState(null);
@@ -57,19 +116,12 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <div className="appShell">
-        <Navbar apiBaseUrl={API_URL} user={user} />
-        <main className="page">
-          <div className="pageInner">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={loginElement} />
-              <Route path="/post/:id" element={postElement} />
-              <Route path="*" element={<Navigate to="/" replace />} />
-            </Routes>
-          </div>
-        </main>
-      </div>
+      <AnimatedLayout
+        apiBaseUrl={API_URL}
+        loginElement={loginElement}
+        postElement={postElement}
+        user={user}
+      />
     </BrowserRouter>
   );
 };

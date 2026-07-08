@@ -35,7 +35,7 @@ const Navbar = ({ apiBaseUrl, user }) => {
           </li>
         </ul>
       ) : (
-        <Link className="link" to="/login">
+        <Link className="link navLogin" to="/login">
           Login
         </Link>
       )}

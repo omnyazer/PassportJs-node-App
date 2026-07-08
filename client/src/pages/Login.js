@@ -21,7 +21,11 @@ const Login = ({ apiBaseUrl }) => {
 
   return (
     <section className="login">
-      <h1 className="loginTitle">Choisissez un mode de connexion</h1>
+      <div className="loginHero">
+        <span className="loginEyebrow">Connexion </span>
+        <h1 className="loginTitle">Connectez-vous en un instant</h1>
+        
+      </div>
       <div className="wrapper">
         <div className="left">
           <button className="loginButton google" onClick={google} type="button">

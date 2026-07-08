@@ -4,6 +4,8 @@ node_modules/
 client/build/
 backend/.env
 client/.env
+.codex/
+.agents/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
