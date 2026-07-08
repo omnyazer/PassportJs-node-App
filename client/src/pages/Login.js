@@ -64,9 +64,7 @@ const Login = ({ apiBaseUrl }) => {
             <button className="submit" type="submit">
               Login
             </button>
-            <p className="note">
-              Le formulaire local est seulement visuel sur cette partie du devoir.
-            </p>
+            
           </form>
         </div>
       </div>
